@@ -18,7 +18,7 @@ const buildControls = props => {
 				label={ctrl.label}
 				added={() => props.ingredientAdded(ctrl.type)}
 				removed={() => props.ingredientRemoved(ctrl.type)}
-				disableBtn = {props.disabledInfo[ctrl.type]}
+				disableBtn={props.disabledInfo[ctrl.type]}
 			/>
 		);
 	return (
@@ -28,6 +28,9 @@ const buildControls = props => {
 					Price : <strong>{props.price.toFixed(2)}</strong>
 				</p>
 				{BuildControlsArr}
+				<button className={classes.OrderButton} disabled={!props.purchasable} onClick={props.displayOrderModal}>
+					Order Now
+				</button>
 			</div>
 		</React.Fragment>
 	);
