@@ -9,10 +9,10 @@ const navigationItems = props => {
 	return (
 		<nav className={classList.join(" ")}>
 			<ul className={classes.NavigationItems}>
-				<NavigationItem link="/" active>
+				<NavigationItem link="/" >
 					Burger Builder
 				</NavigationItem>
-				<NavigationItem link="/">Checkout</NavigationItem>
+				<NavigationItem link="/orders">Orders</NavigationItem>
 			</ul>
 		</nav>
 	);
