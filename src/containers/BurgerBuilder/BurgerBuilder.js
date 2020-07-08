@@ -8,7 +8,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import * as actionTypes from "../../store/actions";
+import * as actions from "../../store/actions/index";
 
 // const MAX_INGREDIENTS_ALLOWED = {
 // 	salad: 2,
@@ -20,19 +20,11 @@ import * as actionTypes from "../../store/actions";
 class BurgerBuilder extends Component {
 	state = {
 		showModal: false,
-		loading: false,
-		error: false,
 	};
 
 	componentDidMount() {
-		axios
-			.get("https://react-burger-builder-5c613.firebaseio.com/ingredients.json")
-			.then(response => {
-				this.setState({ ingredients: response.data });
-			})
-			.catch(error => {
-				this.setState({ error: error });
-			});
+		console.log("component mounting");
+		this.props.onFetchIngredients();
 	}
 
 	isPurchasable() {
@@ -49,7 +41,8 @@ class BurgerBuilder extends Component {
 	};
 
 	continuePurchaseHandler = () => {
-		this.props.history.push("/checkout")
+		this.props.onInitPurchase();
+		this.props.history.push("/checkout");
 	};
 
 	getDisabledInfo = () => {
@@ -71,7 +64,7 @@ class BurgerBuilder extends Component {
 
 		let orderSummary = null;
 		let burger = <Spinner />;
-		if (this.state.error)
+		if (this.props.error)
 			burger = <p style={this.errorStyle}>Error Fetching Ingredients</p>;
 
 		if (this.props.ingredients) {
@@ -98,7 +91,6 @@ class BurgerBuilder extends Component {
 			);
 		}
 
-		if (this.state.loading) orderSummary = <Spinner />;
 
 		return (
 			<React.Fragment>
@@ -112,16 +104,19 @@ class BurgerBuilder extends Component {
 }
 const mapStateToProps = state => {
 	return {
-		ingredients: state.ingredients,
-		price: state.totalPrice,
+		ingredients: state.burgerBuilder.ingredients,
+		price: state.burgerBuilder.totalPrice,
+		error: state.burgerBuilder.error,
 	};
 };
 const mapDispatchToProps = dispatch => {
 	return {
 		onIngredientAdded: igName =>
-			dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: igName }),
+			dispatch(actions.addIngredient(igName)),
 		onIngredientRemoved: igName =>
-			dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName: igName }),
+			dispatch(actions.removeIngredient(igName)),
+		onFetchIngredients: () => dispatch(actions.fetchIngredients()),
+		onInitPurchase : () => dispatch(actions.purchaseInit())
 	};
 };
 export default connect(

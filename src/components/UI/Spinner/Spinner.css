@@ -7,6 +7,7 @@
   border-radius: 50%;
   position: relative;
   text-indent: -9999em;
+  margin-top: 150px;
   -webkit-animation: load4 1.3s infinite linear;
   animation: load4 1.3s infinite linear;
   -webkit-transform: translateZ(0);
