@@ -29,7 +29,7 @@ const buildControls = props => {
 				</p>
 				{BuildControlsArr}
 				<button className={classes.OrderButton} disabled={!props.purchasable} onClick={props.displayOrderModal}>
-					Order Now
+					{props.isAuth?'Order Now':'Sign In to Order'}
 				</button>
 			</div>
 		</React.Fragment>

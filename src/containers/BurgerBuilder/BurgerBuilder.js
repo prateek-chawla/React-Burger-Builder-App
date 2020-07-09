@@ -35,9 +35,11 @@ class BurgerBuilder extends Component {
 	}
 
 	orderModalHandler = () => {
-		this.setState(prevState => {
-			return { showModal: !prevState.showModal };
-		});
+		if (this.props.isAuth) this.setState({ showModal: true });
+		else {
+			this.props.onSetAuthRedirectPath('/checkout');
+			this.props.history.push("/auth");
+		}
 	};
 
 	continuePurchaseHandler = () => {
@@ -76,6 +78,7 @@ class BurgerBuilder extends Component {
 						ingredientRemoved={this.props.onIngredientRemoved}
 						price={this.props.price}
 						disabledInfo={disabledInfo}
+						isAuth={this.props.isAuth}
 						purchasable={this.isPurchasable()}
 						displayOrderModal={this.orderModalHandler}
 					/>
@@ -90,7 +93,6 @@ class BurgerBuilder extends Component {
 				/>
 			);
 		}
-
 
 		return (
 			<React.Fragment>
@@ -107,16 +109,16 @@ const mapStateToProps = state => {
 		ingredients: state.burgerBuilder.ingredients,
 		price: state.burgerBuilder.totalPrice,
 		error: state.burgerBuilder.error,
+		isAuth: state.auth.token !== null,
 	};
 };
 const mapDispatchToProps = dispatch => {
 	return {
-		onIngredientAdded: igName =>
-			dispatch(actions.addIngredient(igName)),
-		onIngredientRemoved: igName =>
-			dispatch(actions.removeIngredient(igName)),
+		onIngredientAdded: igName => dispatch(actions.addIngredient(igName)),
+		onIngredientRemoved: igName => dispatch(actions.removeIngredient(igName)),
 		onFetchIngredients: () => dispatch(actions.fetchIngredients()),
-		onInitPurchase : () => dispatch(actions.purchaseInit())
+		onInitPurchase: () => dispatch(actions.purchaseInit()),
+		onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path)),
 	};
 };
 export default connect(
