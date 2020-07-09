@@ -19,7 +19,7 @@ export const removeIngredient = igName => {
 export const fetchIngredients = () => {
 	return dispatch => {
 		axios
-			.get("https://react-burger-builder-5c613.firebaseio.com/ingredients.json")
+			.get('/ingredients.json')
 			.then(response => {
 				dispatch(setIngredients(response.data));
 			})

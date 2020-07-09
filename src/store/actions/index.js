@@ -3,3 +3,5 @@ export { addIngredient, removeIngredient, fetchIngredients } from "./burgerBuild
 export { purchaseBurger, purchaseInit } from "./order";
 
 export { fetchOrders } from "./fetchOrders";
+
+export { auth, logout } from "./auth";
