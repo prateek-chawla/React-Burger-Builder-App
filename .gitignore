@@ -16,9 +16,14 @@
 .env.test.local
 .env.production.local
 
+*.log*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-
+#URLS
 src/urls.js
+
+#Firebase
+.firebase*
+firebase*
