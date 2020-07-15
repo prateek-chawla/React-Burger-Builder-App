@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import Button from "../../../components/UI/Button/Button";
@@ -96,6 +96,16 @@ const contactData = props => {
 	});
 
 	const [formIsValid, setFormValidity] = useState(false);
+
+	useEffect(() => {
+		console.log("Fired")
+		console.log(document.body.scrollHeight)
+		window.scrollTo({
+			top: document.body.scrollHeight,
+			left: 0,
+			behavior: "smooth",
+		});
+	},[]);
 
 	const orderHandler = event => {
 		event.preventDefault();
